@@ -1,0 +1,30 @@
+﻿<!-- Specify model for the view -->
+@model MoviesStore.ViewModels.RandomMovieViewModel
+
+@{
+    ViewBag.Title = "Random";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Code block for c# code (vars etc)-->
+@{ 
+    var className = Model.Customers.Count > 0 ? "popular" : null;
+}
+
+<!-- Model is used to access model data which is specified on top of the file i.e Movie -->
+<h2 class="@className">@Model.Movie.Name</h2>
+
+@if (Model.Customers.Count == 0)
+{
+    <text>No one has rented this movie before.</text>
+}
+else
+{
+    <ul>
+        @foreach (var customer in Model.Customers)
+        {
+            <li>@customer.Name</li>
+        }
+    </ul>
+}
+
