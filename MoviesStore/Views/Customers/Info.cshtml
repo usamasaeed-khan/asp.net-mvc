@@ -5,11 +5,11 @@
 }
 
 <h2>@Model.Name</h2>
-<div>
-    <div>Membership Type: @Model.MembershipType.Name</div>
+<ul>
+    <li>Membership Type: @Model.MembershipType.Name</li>
     @if (Model.Birthdate != null)
     {
-        <div>Birth Date: @Model.Birthdate.Value.ToString("dd-MMM-yyyy")</div>
+        <li>Birth Date: @Model.Birthdate.Value.ToString("dd-MMM-yyyy")</li>
     }
-</div>
+</ul>
 
