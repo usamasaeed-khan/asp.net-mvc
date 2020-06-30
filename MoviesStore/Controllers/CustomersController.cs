@@ -4,48 +4,61 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MoviesStore.Models;
+using System.Data.Entity; // to use.Include()
 
 
 namespace MoviesStore.Controllers
 {
     public class CustomersController : Controller
     {
-        public List<Customer> GetCustomers()
+        // Declaring db context for querying data.
+        private ApplicationDbContext _context;
+
+        public CustomersController()
         {
-            var customers = new List<Customer>
-            {
-                new Customer {Id=1,Name="Customer 1"},
-                new Customer {Id=2,Name="Customer 2"}
-            };
-            return customers;
+            // Initializing db context in constructor.
+            _context = new ApplicationDbContext();
+
         }
-        // GET: Customers
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
+
+        // Disposing db context is necessary hence we overrirde our dispose method.
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
+        
+
         [Route("Customers")]
         public ActionResult Index()
         {
+            /* 
+               1 - Customers is the db set we created before for Customer Model.
+
+               2 - Query is not executed yet its executed when we iterate through 
+                   customers in View, hence we use ToList() method to 
+                   execute it immediately.
+
+               3 - Calling .Include() loads MembershipType data too,
+                   not using it will give null object reference if we use 
+                   @customer.MembershipType.{AnyPropertyOfMembershipTypeModel}.
+            */
+
+            var customers = _context.Customers.Include(c => c.MembershipType).ToList();
+
             // to send data to view.
-            return View(GetCustomers());
+            return View(customers);
         }
 
         [Route("Customers/{id}")]
-        public ActionResult Info(int Id)
+        public ActionResult Info(int id)
         {
-            Customer customer = null;
-            foreach(Customer cust in GetCustomers())
-            {
-                if(cust.Id == Id)
-                {
-                    customer = cust;
-                    break;
-                }
-            }
-            if (customer == null) return HttpNotFound();
+            // Query will be immediately executed because of single or default method.
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
             
-            else return View(customer);
+            if (customer == null) 
+                return HttpNotFound();
+            
+            return View(customer);
         }
 
     }

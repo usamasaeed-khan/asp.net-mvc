@@ -20,6 +20,12 @@ namespace MoviesStore.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+
+        // Represents customer table in our database.
+        public DbSet<Customer> Customers { get; set; }
+
+
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
