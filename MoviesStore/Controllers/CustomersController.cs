@@ -12,7 +12,7 @@ namespace MoviesStore.Controllers
     public class CustomersController : Controller
     {
         // Declaring db context for querying data.
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public CustomersController()
         {
@@ -53,7 +53,7 @@ namespace MoviesStore.Controllers
         public ActionResult Info(int id)
         {
             // Query will be immediately executed because of single or default method.
-            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+            var customer = _context.Customers.Include(c => c.MembershipType).SingleOrDefault(c => c.Id == id);
             
             if (customer == null) 
                 return HttpNotFound();
