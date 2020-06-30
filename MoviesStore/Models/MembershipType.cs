@@ -18,5 +18,8 @@ namespace MoviesStore.Models
 
         // Will be between 0-100.
         public byte DiscountRate { get; set; }
+
+        // New Migration
+        public string Name { get; set; }
     }
 }
