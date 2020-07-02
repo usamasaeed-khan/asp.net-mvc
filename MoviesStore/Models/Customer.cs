@@ -23,9 +23,11 @@ namespace MoviesStore.Models
 
         // when we only want the foreign key and not whole navigation property
         // we use only the foreign key with className + id which is auto recgnized by EF as FK.
+        [Display(Name = "Membership Type")]
         public byte MembershipTypeId { get; set; }
 
-        // New property.
+        // Requires recompilation
+        [Display(Name="Date of Birth")]
         public DateTime? Birthdate { get; set; }
     }
 }

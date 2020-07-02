@@ -1,0 +1,55 @@
+﻿@model MoviesStore.ViewModels.CustomerFormViewModel
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>New Customer</h2>
+
+<!-- target Action of form is the create action of CustomersController-->
+<!-- Begin Form renders <form> tag, to auto render </form> we wrap it in using block to auto Dispose() form tag-->
+@using (@Html.BeginForm("Create", "Customers"))
+{
+    <div class="form-group">
+        <!-- Euiv of <label> -->
+        @Html.LabelFor(m => m.Customer.Name)
+
+        <!-- Has auto validation-->
+        <!-- 2nd Arg is used for Html tag attributes for text box -->
+        @Html.TextBoxFor(m => m.Customer.Name, new { @class = "form-control" })
+    </div>
+
+
+    <div class="form-group">
+        <!-- To change displayed text -->
+        @Html.LabelFor(m => m.Customer.Birthdate)
+
+
+        <!-- Has auto validation-->
+        <!-- 3rd Arg is used for Html tag attributes for text box -->
+        <!-- 2nd Arg is used for formatting the value of birthdate -->
+        @Html.TextBoxFor(m => m.Customer.Birthdate, "{0: d MMM yyyy}", new { @class = "form-control" })
+    </div>
+
+
+    <div class="form-group">
+
+        <!-- Euiv of <label> -->
+        @Html.LabelFor(m => m.Customer.MembershipTypeId)
+
+        <!-- Display list of membership type Name property and store the id property-->
+        @Html.DropDownListFor(m => m.Customer.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "Name"), "Select Membership Type", new { @class = "form-control" })
+    </div>
+
+
+    <!-- Using Bootstrap, replace input tag with our model property. -->
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(m => m.Customer.IsSubscribedToNewsletter) Subscribe to Newsletter?
+        </label>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Save</button>
+
+}
